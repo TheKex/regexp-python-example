@@ -3,12 +3,12 @@ import csv
 import re
 
 
-def get_fio(lastname, firstname, surname):
+def format_fio(lastname, firstname, surname):
     full_fio = (lastname + ' ' + firstname + ' ' + surname).strip()
     return full_fio.split()
 
 
-def get_phone(phone):
+def format_phone(phone):
     phone_pattern = r"(\+7|8)\s*\(?(\d{3})\)?[\s-]*(\d{3})[\s-]*(\d{2})[\s-]*(\d{2})"
     phone_format_pattern = r"+7(\2)\3-\4-\5"
     phone = re.sub(phone_pattern, phone_format_pattern, phone)
@@ -45,11 +45,11 @@ if __name__ == '__main__':
         contacts_list = list(rows)
 
     for contact in contacts_list:
-        fio = get_fio(*contact[0:3])
+        fio = format_fio(*contact[0:3])
         for i in range(3):
             contact[i] = fio[i] if len(fio) > i else ""
 
-        contact[5] = get_phone(contact[5])
+        contact[5] = format_phone(contact[5])
 
     contacts_list = delete_duplicates(contacts_list)
 
